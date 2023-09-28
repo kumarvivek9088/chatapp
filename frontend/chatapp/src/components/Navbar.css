@@ -1,0 +1,54 @@
+body{
+    margin: 0;
+}
+.Navbar{
+    width: 15%;
+    height: 100%;
+    position: fixed;
+    overflow: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #451952;
+    border-radius: 5px;
+}
+
+img{
+    width: 25%;
+
+}
+
+li{
+    width: 100%;
+    /* background-color: yellow; */
+    margin-top: 5%;
+    text-align: center;
+
+}
+
+.material-symbols-outlined {
+    font-size: 30px;
+    color: aliceblue;
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 50
+
+  
+
+
+}
+
+.profileavatar{
+    font-size: 80px;
+    margin-bottom: 15vh;
+}
+
+.navbarmain{
+    margin-bottom: 20%;
+}
+
+.navbarsetting{
+    /* margin: auto; */
+    margin-top: 90%;
+}
