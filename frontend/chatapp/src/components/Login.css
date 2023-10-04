@@ -1,0 +1,81 @@
+body{
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.signin-container{
+    /* background-color: yellow; */
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    margin: auto;
+    text-align: center;
+    background-image: url('https://c4.wallpaperflare.com/wallpaper/531/951/621/digital-digital-art-artwork-illustration-minimalism-hd-wallpaper-preview.jpg');
+    background-color: black;
+    background-size: cover;
+  }
+  form{
+    width: 30%;
+    backdrop-filter: blur(6px);
+    display: flex;
+    flex-direction: column;
+    margin: 150px auto;
+    padding: 50px 0px;
+  
+    background-color: rgba(255, 255, 255, 0);
+    border: 1px solid white;
+    border-radius: 30px;
+    /* box-shadow: 2px 2px 4px rgba(7, 7, 7, 0.3); */
+  
+  }
+  .signin-form h1{
+    color: white;
+    margin-bottom: 30px;
+  }
+  .logininput{
+    width: 70%;
+    height: 35px;
+    margin: 10px auto;
+    border: none;
+    background-color: rgba(255, 255, 255, 0);
+    border-bottom: 2px solid white;
+    color: white;
+    /* -webkit-transition: 0.5s; */
+    transition: 0.5s;
+  }
+  .logininput:focus{
+    outline: none;
+  }
+  .logininput::placeholder{
+    color: white;
+  }
+  .signin-form a{
+    color: white;
+    /* width: 70%; */
+    height: 35px;
+    margin: 10px auto;
+    text-align: left;
+    text-decoration: none;
+  }
+  .loginbutton{
+    width: 70%;
+    height: 35px;
+    font-weight: bolder;
+    margin: 10px auto 0px auto;
+    border: none;
+    border-radius: 50px;
+    text-align: center;
+    background-color: white;
+    color: black;
+  }
+  .btn-create-account{
+    background-color: black;
+    color: white;
+    letter-spacing: 1px;
+  }
+  @media screen and (max-width:480px) {
+    .signin-form {
+      width: 90%;
+    }
+  }
