@@ -28,7 +28,8 @@ class Signin(APIView):
     def post(self,request):
         user = authenticate(username = request.data['username'],password = request.data['password'])
         if user:
-            token = RefreshToken.for_user(user)
+            # token = RefreshToken.for_user(user)
+            token  = AccessToken.for_user(user)
             return Response({"message":"login successfull","status":True,"token":str(token),"username":user.username,"email":user.email},status=status.HTTP_200_OK)
         else:
             return Response({"message":"username or password isn't match","status":False})
