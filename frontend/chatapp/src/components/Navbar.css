@@ -45,6 +45,7 @@ img{
     /* background-color: yellow; */
     margin-top: 5%;
     text-align: center;
+    cursor: pointer;
 }
 
 .navbarsetting{
@@ -54,4 +55,5 @@ img{
     /* background-color: yellow; */
     margin-top: 5%;
     text-align: center;
+    cursor: pointer;
 }

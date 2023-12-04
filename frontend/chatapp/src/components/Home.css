@@ -69,6 +69,7 @@ h1{
     display: flex;
     margin-top: 1%;
     margin-bottom: 1%;
+    cursor: pointer;
 }
 .chatmenuavatar{
     width: 23%;

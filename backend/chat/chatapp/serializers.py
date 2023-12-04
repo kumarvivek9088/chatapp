@@ -13,9 +13,20 @@ class searchnewUserSerializer(serializers.ModelSerializer):
 class myUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = myUser
-        fields = ['username', 'email', 'phonenumber', 'firstname', 'lastname', 'profilepic']     
+        fields = ['id','username', 'email', 'phonenumber', 'firstname', 'lastname', 'profilepic']     
+
+
+class chatHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChatHistory
+        fields = "__all__"
+
 class chatMenuSerializer(serializers.ModelSerializer):
     chatswith = myUserSerializer()
+    # lastmessages = chatHistorySerializer()
     class Meta:
         model = chatsMenu
-        fields = "__all__"
+        fields = [
+            'id',
+            'chatswith',
+        ]
