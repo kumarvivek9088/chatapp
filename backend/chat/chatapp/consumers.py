@@ -15,7 +15,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         print(self.user)
         if not self.user.is_authenticated:
             self.close()
-            return("not authenticated")
+            print("not authenticated")
         
         await self.channel_layer.group_add(
             self.room_group_name, self.channel_name
@@ -39,4 +39,4 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = event["message"]
         user = event['user']
         # Send message to WebSocket
-        await self.send(text_data=json.dumps({"message": message,"user":user}))
+        await self.send(text_data=json.dumps({"message": message,"user":user.id}))

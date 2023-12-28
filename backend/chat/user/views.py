@@ -6,6 +6,8 @@ from .serializers import myUserSerializers
 from rest_framework_simplejwt.tokens import AccessToken,RefreshToken
 from .models import myUser
 from django.contrib.auth import authenticate
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import  JWTAuthentication
 # Create your views here.
 
 
@@ -33,3 +35,24 @@ class Signin(APIView):
             return Response({"message":"login successfull","status":True,"token":str(token),"username":user.username,"email":user.email},status=status.HTTP_200_OK)
         else:
             return Response({"message":"username or password isn't match","status":False})
+
+class edituserDetails(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    def get(self,request):
+        user = myUser.objects.get(username=request.user)
+        serializer = myUserSerializers(user)
+        return Response(serializer.data)
+
+
+class searchUser(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self,request):
+        search = request.data.get('search')
+        if search is None:
+            return Response({"result":None})
+        
+        result = myUser.objects.filter(username__icontains = search)
+        serializer = myUserSerializers(result,many=True)
+        return Response({"result":serializer.data})

@@ -21,6 +21,14 @@ class chatMenu(APIView):
     def get(self,request):
         persons = chatsMenu.objects.all().filter(user = request.user.id)
         serializer = chatMenuSerializer(persons,many=True)
+        # for users in serializer.data:
+        #     chats = ChatHistory.objects.all().filter(Q(sender = request.user.id, receiver = users['chatswith']['id']) | Q(receiver = request.user.id, sender = users['chatswith']['id'])).last()
+        #     print(users['id'])
+        #     if chats is not None:
+        #         serializer.data[int(users['id'])].update({"lastmessage":chats.message,'time':chats.sent_at})
+        #     # else:
+        #     #     serializer.data[int(users['id'])].update({"lastmessage":None,'time':None})
+        #     # print(chats.message)
         return Response(serializer.data)
     
 class chatshistory(APIView):
@@ -33,6 +41,8 @@ class chatshistory(APIView):
         # if users is None:
         #     return Response({"message":"no history found"})
         chats = ChatHistory.objects.all().filter(Q(sender = request.user.id, receiver = user) | Q(receiver = request.user.id, sender = user))
+        # users = chatsMenu.objects.get(id=id)
+        # chats = ChatHistory.objects.filter(users=users)
         serializer = chatHistorySerializer(chats, many= True)
         return Response(serializer.data,status = status.HTTP_200_OK)
     

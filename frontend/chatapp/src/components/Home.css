@@ -1,16 +1,19 @@
 .homecontainer{
-    background-color: #AE445A;
+    /* background-color: #AE445A; */
+    background-color: rgb(237, 200, 200);
     width: 65%;
     height: 80vh;
     margin: auto;
     display: flex;
+    border-radius: 2%;
 
 }
 .container{
     padding-top: 5%;
 }
 .menucontainer{
-    background-color: #AE445A;
+    /* background-color: #AE445A; */
+    /* background-color: #d9637b; */
     /* background-color: yellow; */
     /* margin-right: auto; */
     height: 100%;
@@ -20,6 +23,7 @@
     /* text-align: center; */
     overflow-y: scroll;
     scrollbar-width: none;
+
 }
 .menucontainer::-webkit-scrollbar{
     display: none;
@@ -31,10 +35,12 @@
     width: 60%;
     /* display: flex; */
     background-color: aqua;
+    display: none;
 }
 
 .homeinputcontainer{
     text-align: center;
+    position: relative;
 
 }
 .homeinput{
@@ -46,6 +52,21 @@
     border-radius: 5px ;
     border-bottom: 5px solid #AE445A;
     color: #AE445A;
+}
+.searchuserresult{
+    width: 35%;
+    height: fit-content;
+    margin: -12px 32.5%;
+    position: absolute;
+    background-color: rgb(237, 200, 200) ;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.searchuserdetail{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    margin: 5px;
 }
 .homeinput::placeholder{
     color: #AE445A;
@@ -65,7 +86,9 @@ h1{
     width: 100%;
     height: 8vh;
     /* background-color: yellow; */
-    background-color: #F39F5A;
+    /* background-color: #F39F5A; */
+    /* background-color: rgb(237, 200, 200); */
+    background-color: #AE445A;
     display: flex;
     margin-top: 1%;
     margin-bottom: 1%;
@@ -74,9 +97,15 @@ h1{
 .chatmenuavatar{
     width: 23%;
     height: 100%;
-    padding: 0;
 }
-
+.chatmenuavatarimg{
+    border-radius: 50%;
+    width: 56%;
+    height: 80%;
+    margin: auto;
+    display: flex;
+    margin-top: 4px;
+}
 .chatmenupeople{
     width: 77%;
     height: 100%;
@@ -122,8 +151,11 @@ h1{
 .chatbox{
     width: 100%;
     height: 80%;
-    background-color: aliceblue;
+    /* background-color: aliceblue; */
+    background-color: rgb(237, 200, 200);
     display: flex;
+
+    
     /* margin-top: 1%; */
 }
 .subchatcontainer{
@@ -156,12 +188,62 @@ h1{
 
 .recievechat{
     /* background-color: yellow; */
-    width: 50%;
-    height: 100%;
+    width: 100%;
+    /* background-color: yellowgreen; */
+    margin-top: 10px;
 }
 
 .sendchat{
     /* background-color: green; */
-    width: 50%;
+    width: 100%;
+    /* background-color: yellow; */
+    text-align: right;
+    display: flex;
+    flex-direction: row-reverse;
+    margin-top: 10px;
+}
+.chatmessage{
+    width: 100%;
     height: 100%;
+    margin: 1%;
+}
+.recievetext{
+    padding: 2%;
+    background-color: #AE445A;
+    border-radius: 5px;
+    width: max-content;
+}
+.sendtext{
+    padding: 2%;
+    background-color: #AE445A;
+    border-radius: 5px;
+    max-width: max-content;
+}
+
+.dotscontainer{
+    width: max-content;
+    height: 100%;
+    text-align: center;
+    position: relative;
+}
+
+.dotscontainermenu{
+    position: absolute;
+    background-color: white;
+    display: none;
+    width: 150px;
+    height: 150px;
+    border-radius: 5px;
+    border-bottom: 5px solid #F39F5A;
+}
+.dotscontainer:hover{
+    cursor: pointer;
+}
+.dotscontainermenuitems{
+    padding: 6px;
+    margin: 4px;
+}
+
+.dotscontainermenuitems:hover{
+    background-color: #F39F5A;
 }
