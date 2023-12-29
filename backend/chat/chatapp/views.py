@@ -19,8 +19,8 @@ class chatMenu(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     def get(self,request):
-        persons = chatsMenu.objects.all().filter(user = request.user.id)
-        serializer = chatMenuSerializer(persons,many=True)
+        persons = chatsMenu.objects.all().filter(Q(user1 = request.user.id) | Q(user2=request.user.id))
+        serializer = chatMenuSerializer(persons,many=True,context={'request':request})
         # for users in serializer.data:
         #     chats = ChatHistory.objects.all().filter(Q(sender = request.user.id, receiver = users['chatswith']['id']) | Q(receiver = request.user.id, sender = users['chatswith']['id'])).last()
         #     print(users['id'])
@@ -40,7 +40,7 @@ class chatshistory(APIView):
         # print(users.chatswith)
         # if users is None:
         #     return Response({"message":"no history found"})
-        chats = ChatHistory.objects.all().filter(Q(sender = request.user.id, receiver = user) | Q(receiver = request.user.id, sender = user))
+        chats = ChatHistory.objects.all().filter(Q(sender = request.user.id, receiver = user) | Q(receiver = request.user.id, sender = user)).order_by('sent_at')
         # users = chatsMenu.objects.get(id=id)
         # chats = ChatHistory.objects.filter(users=users)
         serializer = chatHistorySerializer(chats, many= True)

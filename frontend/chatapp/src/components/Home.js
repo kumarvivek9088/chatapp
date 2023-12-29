@@ -1,9 +1,9 @@
 import React from "react";
 // import Navbar from "./Navbar";
 import "./Home.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect ,useRef} from "react";
+const baseurl = process.env.REACT_APP_BASE_URL;
 const Home = ()=>{
-    const baseurl = process.env.REACT_APP_BASE_URL;
     const authToken = localStorage.getItem("authToken");
     const userid = localStorage.getItem("userid");
     // console.log(userid);
@@ -12,7 +12,15 @@ const Home = ()=>{
     const [searchuser, setsearchuser] = useState("");
     const [chathistory , setchathistory] = useState([]);
     const [messagetosend, setmessagetosend] = useState("");
-    let ws = "";
+    const [roomid,setroomid] = useState("");
+    const [ws, setWs] = useState(null);
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+        if (containerRef.current) {
+        containerRef.current.scrollTop = containerRef.current.scrollHeight;
+        }
+    }, [chathistory]);
     let d = false;
     function displaydotsmenu(){
         let container = document.getElementsByClassName("dotscontainermenu");
@@ -30,7 +38,7 @@ const Home = ()=>{
     const onchangemessagetosend = (event)=>{
         setmessagetosend(event.target.value);
     }
-    const sendbutton = document.getElementById("sendmessage");
+    // const sendbutton = document.getElementById("sendmessage");
     // sendbutton.onclick = ()=>{
     //     console.log("message sent");
     // }
@@ -38,7 +46,7 @@ const Home = ()=>{
         // console.log(name);
         let container = document.getElementsByClassName("chatcontainer")[0];
         let pname = document.getElementById("p2");
-        if (container.style.display == 'block' &&  pname.innerHTML == name){
+        if (container.style.display === 'block' &&  pname.innerHTML === name){
             container.style.display = 'none';
         }
         else{
@@ -46,7 +54,7 @@ const Home = ()=>{
             let avatar = document.getElementById('l2');
             if (profilepic){
                 avatar.style.display = 'none';
-                dp.src = `http://127.0.0.1:8000/${profilepic}`;
+                dp.src = `${baseurl}${profilepic}`;
                 dp.style.display='block';
             }
             else{
@@ -57,7 +65,7 @@ const Home = ()=>{
             container.style.display = 'block';
             setchathistory([]);
             console.log(baseurl,personid);
-            fetch(`${baseurl}chat/chathistory/${personid}`,{
+            fetch(`${baseurl}/chat/chathistory/${personid}`,{
                 method: "GET",
                 headers:{
                     Authorization : `Bearer ${authToken}`,
@@ -68,22 +76,53 @@ const Home = ()=>{
             .then((data)=> setchathistory(data))
             .catch((error)=> console.error("error fetching in history",error));
             console.log(chathistory);
-            this.ws = new WebSocket(`ws://127.0.0.1:8000/ws/chat/${roomid}/?token=${authToken}`);
-            this.ws.onopen= ()=>{
-                this.ws.send(JSON.stringify({"message":messagetosend}));
-                console.log("connected")
-            }
-            this.ws.onmessage = (event)=>{
-                const data = JSON.parse(event.data);
-                console.log(data.message);
-                console.log(data.user);
-            }
+            setroomid(roomid);
+            // this.ws = new WebSocket(`ws://127.0.0.1:8000/ws/chat/${roomid}/?token=${authToken}`);
+            // this.ws.onopen= ()=>{
+            //     this.ws.send(JSON.stringify({"message":messagetosend}));
+            //     console.log("connected")
+            // }
+            // this.ws.onmessage = (event)=>{
+            //     const data = JSON.parse(event.data);
+            //     console.log(data.message);
+            //     console.log(data.user);
+            // }
             // sendbutton.onClick=(event)=>{
             //     ws.send(JSON.stringify({"message":messagetosend}));
             //     setmessagetosend("");
             // }
         }
     }
+    const sendMessage = () => {
+        if (ws && ws.readyState === WebSocket.OPEN && messagetosend.trim() !== '') {
+          ws.send(JSON.stringify({ message: messagetosend }));
+          setmessagetosend(''); // Clear the message input after sending
+        }
+      };
+    useEffect(()=>{
+        if (roomid!==""){
+
+            const socket = new WebSocket(`ws://127.0.0.1:8000/ws/chat/${roomid}/?token=${authToken}`);
+            socket.onopen= ()=>{
+                //     this.ws.send(JSON.stringify({"message":messagetosend}));
+                    console.log("connected");
+                    setWs(socket);
+                }
+            socket.onmessage = (event)=>{
+                const data = JSON.parse(event.data);
+                console.log(data.message);
+                console.log(data.user);
+                setchathistory(prevchathistory=>[...prevchathistory,{"sender":data.user,"message":data.message}]);
+            }
+            socket.onclose = () => {
+                console.log('WebSocket disconnected');
+              };
+            return () => {
+                socket.close(); // Close the WebSocket connection when the component unmounts
+              };
+        }
+    },[roomid,authToken])
+
     useEffect(() => {
         console.log(authToken);
         fetch("http://127.0.0.1:8000/chat/chats/",{
@@ -97,7 +136,7 @@ const Home = ()=>{
         .then((data) => setUserChat(data))
         // .then(console.log(userChat))
         .catch((error) => console.error("Error fetching data:",error));
-    },[]);
+    },[authToken]);
 
     function onsearchuser(event){
         setsearchuser(event.target.value);
@@ -150,7 +189,7 @@ const Home = ()=>{
     useEffect(() => {
         let srinput = document.getElementById("searchuserinput");
         srinput.onkeyup=()=>{
-            if (searchuser==""){
+            if (searchuser===""){
                 console.log("im here in if");
                 setsearchdata([]);
             }
@@ -173,13 +212,13 @@ const Home = ()=>{
                 .catch((error) => console.error("error",error))
             }
         }
-        if(ws !=""){
-            console.log("im become a websocket object");
-        }
+        // if(ws !=""){
+        //     console.log("im become a websocket object");
+        // }
         console.log("here is the search input", searchuser);
         console.log("here is the search data", searchdata);
         console.log("here is the history data", chathistory);
-    }, [searchuser, searchdata,chathistory]);
+    }, [searchuser, searchdata,chathistory,authToken]);
     // console.log(userChat);
     return(
         <>
@@ -198,7 +237,7 @@ const Home = ()=>{
                     <div className="chatmenuavatar" style={{width:"10%"}}>
                         {srdata.profilepic?(
 
-                            <img  className="chatmenuavatarimg" src = {`http://127.0.0.1:8000/${srdata.profilepic}`} />
+                            <img  className="chatmenuavatarimg" src = {`${baseurl}${srdata.profilepic}`} />
                         )
                     :(
                         <li className="material-symbols-outlined" style={{fontSize:"5vh", height:"100%", width:"100%", display: "flex",margin: "auto",justifyContent:"space-around"}}>account_circle</li>
@@ -257,7 +296,7 @@ const Home = ()=>{
                             <div key = {chat.id} className="chatmenu">
                                 <div className="chatmenuavatar">
                                     {chat.chatswith.profilepic ?
-                                        (<img  className="chatmenuavatarimg" src = {`http://127.0.0.1:8000/${chat.chatswith.profilepic}`} />)
+                                        (<img  className="chatmenuavatarimg" src = {`${baseurl}${chat.chatswith.profilepic}`} />)
                                     :(
                                         <li className="material-symbols-outlined" style={{fontSize:"8vh", height:"100%", width:"100%", display: "flex",margin: "auto",justifyContent:"space-around"}}>account_circle</li>)
                                     }
@@ -302,8 +341,8 @@ const Home = ()=>{
                     </div>
                     
                     <div className="chatcontainer">
-
-                            <div style={{width:"100%",height:"8vh",backgroundColor:"#F39F5A", display:"flex",backgroundColor: "#AE445A"}}>
+                    {/* backgroundColor:"#F39F5A" */}
+                            <div style={{width:"100%",height:"8vh", display:"flex",backgroundColor: "#AE445A"}}>
                                 <div className="chatmenuavatar" style={{width:"13%"}}>
                                     <img  id = "i2" className="chatmenuavatarimg"  style={{display:"none"}}/>
                                     <li id = "l2" className="material-symbols-outlined" style={{fontSize:"8vh", height:"100%", width:"100%", display: "flex",margin: "auto",justifyContent:"space-around"}}>account_circle</li>
@@ -329,7 +368,7 @@ const Home = ()=>{
                                 </div>
 
                             </div>
-                            <div className="chatbox">
+                            <div className="chatbox" ref={containerRef}>
                                 <div className="chatmessage">
                                     {chathistory.map((history)=>(
                                         history.sender==userid?(
@@ -352,8 +391,13 @@ const Home = ()=>{
                             </div>
                             <div style={{width:"100%",height:"8vh",display:"flex",backgroundColor: "#AE445A"}}>
                                 <li class="material-symbols-outlined" style={{margin:"1%",textAlign:"center",fontSize:"45px",width:"6%"}}>add</li>
-                                <input type="text" className="messageinput" placeholder="message" value={messagetosend} onChange={onchangemessagetosend}></input>
-                                <button id="sendmessage" className="messagebutton">send</button>
+                                <input type="text" className="messageinput" placeholder="message" value={messagetosend} onChange={onchangemessagetosend} onKeyDown={(event)=>{
+                                    if (event.key==='Enter'){
+                                        document.getElementsByClassName("messagebutton")[0].click();
+
+                                    }
+                                }}></input>
+                                <button id="sendmessage" className="messagebutton" onClick={sendMessage}>send</button>
                             </div>
 
                     </div>

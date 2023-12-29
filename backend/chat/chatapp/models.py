@@ -10,8 +10,8 @@ class chatchannel(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     
 class chatsMenu(models.Model):
-    user = models.ForeignKey(myUser, on_delete=models.CASCADE)
-    chatswith = models.ForeignKey(myUser,on_delete=models.CASCADE,related_name="chatswith")
+    user1 = models.ForeignKey(myUser, on_delete=models.CASCADE)
+    user2 = models.ForeignKey(myUser,on_delete=models.CASCADE,related_name="chatswith")
     
 class ChatHistory(models.Model):
     users = models.ForeignKey(chatsMenu,on_delete = models.CASCADE)

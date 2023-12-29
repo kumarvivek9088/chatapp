@@ -22,7 +22,7 @@ class chatHistorySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class chatMenuSerializer(serializers.ModelSerializer):
-    chatswith = myUserSerializer()
+    chatswith = serializers.SerializerMethodField()
     lastmessage = serializers.SerializerMethodField()
     # time = serializers.SerializerMethodField()
     # lastmessages = chatHistorySerializer()
@@ -42,3 +42,11 @@ class chatMenuSerializer(serializers.ModelSerializer):
                 'sent_at': last_message.sent_at
             }
         return None
+    def get_chatswith(self,obj):
+        request = self.context.get('request')
+        if request.user == obj.user1:
+            chatswith = myUserSerializer(obj.user2)
+            return chatswith.data
+        else:
+            chatswith = myUserSerializer(obj.user1)
+            return chatswith.data

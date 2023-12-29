@@ -154,9 +154,13 @@ h1{
     /* background-color: aliceblue; */
     background-color: rgb(237, 200, 200);
     display: flex;
+    overflow-y: scroll;
 
     
     /* margin-top: 1%; */
+}
+.chatbox::-webkit-scrollbar{
+    visibility: hidden;
 }
 .subchatcontainer{
     width: 100%;
@@ -184,6 +188,9 @@ h1{
     border-radius: 5px;
     background-color: #481d25;
     color: white;
+}
+.messagebutton:hover{
+    cursor: pointer;
 }
 
 .recievechat{

@@ -43,6 +43,14 @@ class edituserDetails(APIView):
         user = myUser.objects.get(username=request.user)
         serializer = myUserSerializers(user)
         return Response(serializer.data)
+    def put(self,request,id):
+        user = myUser.objects.get(id=id)
+        serializer = myUserSerializers(user)
+        return Response(serializer.data)
+    def patch(self,request,id):
+        user = myUser.objects.get(id=id)
+        serializer = myUserSerializers(user)
+        return Response(serializer.data)
 
 
 class searchUser(APIView):

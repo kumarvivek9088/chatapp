@@ -69,10 +69,29 @@ body{
     background-color: white;
     color: black;
   }
+  .loginbutton:hover{
+    cursor: pointer;
+    /* background-color: bisque; */
+  }
+  .loginbutton:active{
+    background-color: bisque;
+    transition: 1ms;
+  }
   .btn-create-account{
     background-color: black;
     color: white;
     letter-spacing: 1px;
+  }
+  .btn-create-account:hover{
+    color: white;
+    background-color: black;
+    /* background-color: rgb(78, 78, 78); */
+    /* transition: all 1s; */
+  }
+  .btn-create-account:active{
+    /* background-color: black; */
+    background-color: rgb(78, 78, 78);
+    transition: 1ms;
   }
   @media screen and (max-width:480px) {
     .signin-form {

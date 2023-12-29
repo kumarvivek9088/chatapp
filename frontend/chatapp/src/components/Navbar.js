@@ -6,6 +6,7 @@ import  "./Navbar.css";
 // import profileavatar from '../images/profileavatar.png';
 import { useState,useEffect } from "react";
 const Navbar = () => {
+  const baseurl = process.env.REACT_APP_BASE_URL;
   const [userData, setuserData] = useState([]);
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
@@ -30,7 +31,7 @@ const Navbar = () => {
     
     <ul className="Navbar">
       {userData.profilepic?(
-        <img  className="navbaravatarimg profileavatar" src = {`http://127.0.0.1:8000/${userData.profilepic}`} />
+        <img  className="navbaravatarimg profileavatar" src = {`${baseurl}${userData.profilepic}`} />
       ):
         <li className="material-symbols-outlined profileavatar">account_circle</li>
       }
