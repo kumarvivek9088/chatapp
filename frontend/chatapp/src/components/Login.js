@@ -2,8 +2,10 @@ import React , {useState} from 'react';
 import {ToastContainer,toast} from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import "./Login.css";
+import { useAuth } from '../context/authorization';
 const baseurl = process.env.REACT_APP_BASE_URL;
 const Login = ()=>{
+    const [authToken, setauthToken] = useAuth();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmpassword, setconfirmPassword] = useState("");
@@ -26,6 +28,7 @@ const Login = ()=>{
             if (response.ok){
                 const data = await response.json();
                 localStorage.setItem("authToken",data.token);
+                setauthToken(data.token);
                 toast("Login Successfull");
                 navigate('/');
 

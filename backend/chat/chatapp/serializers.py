@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from user.models import myUser
-from .models import ChatHistory,chatsMenu
+from .models import ChatHistory,chatsMenu,chatrequest
 class searchnewUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = myUser
@@ -17,6 +17,8 @@ class myUserSerializer(serializers.ModelSerializer):
 
 
 class chatHistorySerializer(serializers.ModelSerializer):
+    sender = myUserSerializer()
+    receiver = myUserSerializer()
     class Meta:
         model = ChatHistory
         fields = "__all__"
@@ -50,3 +52,12 @@ class chatMenuSerializer(serializers.ModelSerializer):
         else:
             chatswith = myUserSerializer(obj.user1)
             return chatswith.data
+        
+        
+
+class chatrequestSerializer(serializers.ModelSerializer):
+    sender = myUserSerializer()
+    receiver = myUserSerializer()
+    class Meta:
+        model = chatrequest
+        fields = '__all__'

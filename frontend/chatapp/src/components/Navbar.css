@@ -6,8 +6,11 @@
     margin: 0;
     padding: 0;
     /* background-color: #451952; */
-    background-color: #AE445A;
+    /* background-color: #AE445A; */
+    background-color: #292e47;
     border-radius: 5px;
+    display: flex;
+    flex-direction: column;
 }
 
 img{
@@ -44,9 +47,9 @@ img{
     width: 70px;
     height: 70px;
     margin: auto;
-    display: flex;
-    margin-bottom: 18vh;
-    margin-top: 8%;
+    /* display: flex; */
+    /* margin-bottom: 18vh; */
+    /* margin-top: 8%; */
 }
 .navbarmain{
     margin-bottom: 20%;
@@ -65,4 +68,68 @@ img{
     margin-top: 5%;
     text-align: center;
     cursor: pointer;
+}
+
+.logoutbuttoncontainer{
+    display: flex;
+    margin-top: auto;
+    margin-bottom: 5px;
+    /* margin: auto; */
+    /* background-color: aliceblue; */
+}
+.logoutbutton{
+    width: max-content;
+    font-size: medium;
+}
+
+.navbarcontainer{
+    /* background-color: #AE445A; */
+    background-color: #292e47;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    /* display: flex; */
+    display: none;
+    height: 8vh;
+    justify-content: space-between;
+}
+
+.navbarprofilepic{
+    width: 56%;
+    height: 80%;
+    border-radius: 50%;
+    margin: auto;
+
+}
+
+.navbaravatar{
+    /* margin-bottom: 20%; */
+    /* display: flex; */
+    margin: auto;
+    width: 100%;
+    /* background-color: yellow; */
+    /* margin-top: 5%; */
+    text-align: center;
+    cursor: pointer;
+    font-size: 50px;
+}
+
+.navbaricons{
+    /* display: flex; */
+    margin: auto;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+}
+.navbaricons li{
+    text-align: center;
+}
+
+@media screen and (max-width:768px) {
+    .Navbar{
+        display: none;
+    }
+    .navbarcontainer{
+        display: flex;
+    }
 }

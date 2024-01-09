@@ -19,3 +19,10 @@ class ChatHistory(models.Model):
     receiver = models.ForeignKey(myUser, on_delete=models.CASCADE, related_name='received_messages')
     message = models.TextField()
     sent_at = models.DateTimeField(auto_now_add=True)
+    
+
+class chatrequest(models.Model):
+    sender = models.ForeignKey(myUser,on_delete=models.CASCADE,related_name="request_sender")
+    receiver = models.ForeignKey(myUser,on_delete=models.CASCADE,related_name="request_receiver")
+    message = models.TextField(null=True,blank=True)
+    sent_at = models.DateTimeField(auto_now_add = True)

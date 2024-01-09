@@ -36,6 +36,7 @@ class CustomAuthMiddleware(BaseMiddleware):
     def get_user(self, scope):
         query_string = str(scope['query_string'].decode('utf-8')).split('=')
         token = query_string[1]
+        # print(token)
         # room_name = scope['path'].split('/')[-2]
         # print(room_name)
         if token:
